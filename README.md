@@ -1,5 +1,5 @@
-Deploy a Pelican Site to GitHub Pages using GitHub Actions
-==========================================================
+Use GitHub Actions to Deploy a Pelican Site to GitHub Pages
+===========================================================
 
 This repo contains a [reusable workflow](https://docs.github.com/en/actions/using-workflows/reusing-workflows) for automatically publishing a [Pelican](https://getpelican.com/) site to [GitHub Pages](https://pages.github.com/) using [GitHub Actions](https://github.com/features/actions).
 
