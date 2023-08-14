@@ -37,7 +37,7 @@ Usage
          id-token: write
    ```
 
-   You may want to replace the `@main` with the ID of a specific commit in this repo in order to pin the version of the reusable workflow that you're using. For example: `uses: seanh/pelican-github-pages/.github/workflows/pelican.yml@d1d4251f39dcf02243b86fa51269c762f5f020fa`.
+   You may want to replace the `@main` with the ID of a specific commit in this repo in order to pin the version of the reusable workflow that you're using. For example: `uses: seanh/pelican-github-pages/.github/workflows/pelican.yml@0cc99c14466712c5bc2406660cd988541afcd767`.
 
    Alternatively you can copy-paste the jobs from this repo's `pelican.yml` workflow into your own repo's workflow, instead of using it as a reusable workflow.
 
