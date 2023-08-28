@@ -23,6 +23,14 @@ jobs:
         uses: actions/configure-pages@v3
       - name: Install requirements
         run: pip install "pelican[markdown]"
+      - name: Print Pelican settings
+        run: pelican --print-settings > /tmp/pelican_settings.json
+        shell: bash
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-${{ hashFiles('/tmp/pelican_settings.json') }} 
+          path: cache
       - name: Build Pelican site
         run: pelican --settings publishconf.py --extra-settings SITEURL='"${{ steps.pages.outputs.base_url }}"'
       - name: Upload artifact
