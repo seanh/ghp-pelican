@@ -2,11 +2,17 @@ name: Deploy Pelican site to GitHub Pages
 on:
   workflow_call:
     inputs:
+      settings:
+        type: string
+        default: "publishconf.py"
+      output-path:
+        type: string
+        default: "output"
       cache:
         type: boolean
       cache-path:
         type: string
-        default: 'cache'
+        default: "cache"
 permissions:
   contents: read
   pages: write
@@ -40,11 +46,11 @@ jobs:
         if:
           ${{ inputs.cache }}
       - name: Build Pelican site
-        run: pelican --settings publishconf.py --extra-settings SITEURL='"${{ steps.pages.outputs.base_url }}"'
+        run: pelican --settings ${{ inputs.settings }} --extra-settings SITEURL='"${{ steps.pages.outputs.base_url }}"'
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: "output/"
+          path: ${{ inputs.output-path }}
   Deploy:
     environment:
       name: github-pages
@@ -55,3 +61,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+
