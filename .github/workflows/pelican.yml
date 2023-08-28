@@ -1,6 +1,12 @@
 name: Deploy Pelican site to GitHub Pages
 on:
   workflow_call:
+    inputs:
+      cache:
+        type: boolean
+      cache-path:
+        type: string
+        default: 'cache'
 permissions:
   contents: read
   pages: write
@@ -30,7 +36,9 @@ jobs:
         uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-${{ hashFiles('.pelican_settings.json') }}
-          path: cache
+          path: ${{ inputs.cache-path }}
+        if:
+          ${{ inputs.cache }}
       - name: Build Pelican site
         run: pelican --settings publishconf.py --extra-settings SITEURL='"${{ steps.pages.outputs.base_url }}"'
       - name: Upload artifact
