@@ -78,7 +78,7 @@ jobs:
 
           subprocess.run(cmd, shell=True, check=True)
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ inputs.output-path }}
   deploy:
