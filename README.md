@@ -53,7 +53,7 @@ Usage
       settings: "publishconf.py"
    ```
 
-   You may want to replace the `@main` with the ID of a specific commit in this repo in order to pin the version of the reusable workflow that you're using. For example: `uses: seanh/ghp-pelican/.github/workflows/pelican.yml@0cc99c14466712c5bc2406660cd988541afcd767`. If you do this you might want to get Dependabot to send you automated pull requests to update that commit ID whenever new versions of this workflow are published, like so:
+   You may want to replace the `@main` with the ID of a specific commit in this repo in order to pin the version of the reusable workflow that you're using. For example: `uses: seanh/ghp-pelican/.github/workflows/pelican.yml@2925832191ca1cdba8852582d222ebd723358df2`. If you do this you might want to get Dependabot to send you automated pull requests to update that commit ID whenever new versions of this workflow are published, like so:
 
    ```yaml
    # .github/dependabot.yml
