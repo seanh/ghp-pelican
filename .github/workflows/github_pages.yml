@@ -36,13 +36,20 @@ on:
         default: ""
         description: "The domain to be prepended to feed URLs (Pelican's FEED_DOMAIN setting). If not passed this will default to the URL of your GitHub Pages site, which is correct in most cases."
         type: string
+      deploy:
+        required: false
+        default: true
+        description: "Whether to deploy the site. If true then build the site and deploy it. If false then just test that the site builds successfully but don't deploy anything."
+        type: boolean
+      stork:
+        required: false
+        default: false
+        description: "Whether to add Stork search tool. If true, it will be installed on runner."
+        type: boolean
 permissions:
   contents: read
   pages: write
   id-token: write
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -59,6 +66,9 @@ jobs:
       - name: Configure GitHub Pages
         id: pages
         uses: actions/configure-pages@v5
+      - name: Install Stork
+        if: ${{ inputs.stork }}
+        run: cargo install stork-search --locked
       - name: Install requirements
         run: pip install ${{ inputs.requirements }}
       - name: Build Pelican site
@@ -77,11 +87,38 @@ jobs:
               cmd += " --theme-path .theme"
 
           subprocess.run(cmd, shell=True, check=True)
+      - name: Fix permissions
+        run: |
+          chmod -c -R +rX "${{ inputs.output-path }}" | while read -r line; do
+            echo "::warning title=Invalid file permissions automatically fixed::$line"
+          done
+      - name: Archive artifact
+        shell: sh
+        run: |
+          echo "::group::Archive artifact"
+          tar \
+            --dereference \
+            --hard-dereference \
+            --directory "$OUTPUT_PATH" \
+            -cvf "$RUNNER_TEMP/artifact.tar" \
+            --exclude=.git \
+            --exclude=.github \
+            .
+          echo "::endgroup::"
+        env:
+          OUTPUT_PATH: ${{ inputs.output-path }}
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v5
         with:
-          path: ${{ inputs.output-path }}
+          name: github-pages
+          path: ${{ runner.temp }}/artifact.tar
+          retention-days: 1
+          if-no-files-found: error
   deploy:
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+    if: ${{ inputs.deploy }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
