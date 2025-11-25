@@ -86,6 +86,7 @@ Here's the complete list of workflow inputs:
 | `requirements` | No | The Python requirements to install, for example to enable markdown and typogrify use: `"pelican[markdown] typogrify"` or if you have a requirements file: `"-r requirements.txt"` | string | `"pelican"` |
 | `output-path` | No | Where to output the generated files (the `pelican` command's `--output` option) | string | `"output/"` |
 | `theme` | No | The GitHub repo URL of a custom theme to use, for example: `"https://github.com/seanh/sidecar.git"` | string | |
+| `theme-checkout` | No | Git ref (branch, tag or commit) of the theme repo to checkout. This can be used to pin the version of your theme. If not specified defaults to the theme repo's default branch. | string | |
 | `python` | No | The version of Python to use to build the site, for example: `"3.12"` (to use the most recent version of Python 3.12, this is faster) or `"3.12.1"` (to use an exact version, slower) | string | `"3.12"` |
 | `siteurl` | No | The base URL of your web site (Pelican's `SITEURL` setting). If not passed this will default to the URL of your GitHub Pages site, which is correct in most cases. | string | The URL of your GitHub Pages site. |
 | `feed_domain` | No | The domain to be prepended to feed URLs (Pelican's `FEED_DOMAIN` setting). If not passed this will default to the URL of your GitHub Pages site, which is correct in most cases. | string | The URL of your GitHub Pages site. |
