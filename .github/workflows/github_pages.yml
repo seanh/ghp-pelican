@@ -116,7 +116,7 @@ jobs:
         env:
           OUTPUT_PATH: ${{ inputs.output-path }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: github-pages
           path: ${{ runner.temp }}/artifact.tar
